@@ -9,7 +9,7 @@ COPY node_modules ./node_modules
 COPY src ./src
 
 # Installer les dépendances (optionnel si node_modules déjà copié)
-# RUN npm install --production --silent
+RUN npm install --production --silent
 
 # Commande par défaut
 CMD ["npm", "start"]
