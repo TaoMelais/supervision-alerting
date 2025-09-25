@@ -32,3 +32,6 @@ Container **Prometheus**:
 Fichier de configuration :
 
 docker-compose.yml
+
+
+Exécution (pour grafalertebot) : docker-compose up --build   
