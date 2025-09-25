@@ -44,7 +44,8 @@ services:
   #     - data
       
   bot-discord:
-    build: ./grafalertbot_conf/
+    build:
+      context: ./grafalertbot_conf
     container_name: GrafAlertBot
     env_file:
       - ./grafalertbot_conf/.env
