@@ -1,0 +1,68 @@
+version: "3.9"
+
+services:
+  grafana:
+    image: grafana/grafana-oss:12.1.1
+    container_name: monitoring
+    hostname: monitoring
+    restart: unless-stopped
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=false         # Désactive compte anonyme
+      - GF_USERS_ALLOW_SIGN_UP=false            # Désactive le "signup"
+      - GF_USERS_DEFAULT_THEME=dark             # Mettre le thème par défaut
+      - GF_PATHS_CONFIG=/etc/grafana/custom.ini # Config custom
+      - GF_SERVER_ROOT_URL=http://local.bastienwarneford.fr:3000
+      - GF_SERVER_HTTP_ADDR=0.0.0.0
+    volumes:
+      - ./grafana_conf/custom.ini:/etc/grafana/custom.ini    # Config custom
+      - ./grafana_conf/send-alert/:/home/grafana/send-alert/
+      - storage:/var/lib/grafana                # Données persistantes
+    ports:
+      - "3000:3000"   # Web Grafana
+    expose:
+      - "9345"        # Port interne uniquement
+    networks:
+      - pub
+      - data
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    hostname: prometheus
+    restart: unless-stopped
+    volumes:
+      - ./prometheus_conf/prometheus.yml:/etc/prometheus/prometheus.yml  # Config Prometheus
+      - prometheus_data:/prometheus                      # Données persistantes
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.enable-lifecycle'
+    expose:
+      - "9090"
+    networks:
+      - data
+      
+  bot-discord:
+    build: ./bot_conf/
+    container_name: alertFox
+    env_file:
+      - ./bot_conf/.env
+    restart: unless-stopped
+    expose:
+      - "4000"
+    networks:
+      - data
+
+networks:
+  admin:
+    external: true
+  pub:
+    external: true
+  data:
+    external: true
+
+volumes:
+  storage:
+  prometheus_data:
+
+
