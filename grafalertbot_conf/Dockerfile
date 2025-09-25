@@ -2,14 +2,14 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Copier uniquement les fichiers nécessaires
-COPY .env ./
-COPY package.json package-lock.json ./
-COPY node_modules ./node_modules
-COPY src ./src
+# Copier package.json et package-lock.json
+COPY package*.json ./
 
-# Installer les dépendances (optionnel si node_modules déjà copié)
-RUN npm install --production --silent
+# Installer les dépendances
+RUN npm install --production
 
-# Commande par défaut
-CMD ["npm", "start"]
+# Copier le reste du projet
+COPY . .
+
+# Lancer le bot via node start
+CMD ["node", "--no-warnings", "src/bot.js"]
