@@ -1,0 +1,9 @@
+npm init -y
+
+npm install discord.js express body-parser dotenv
+
+# Pour créer l'image Docker :
+docker-compose build
+
+# Demarrer le container
+docker-compose up     (-d pas dans le terminal)
