@@ -2,14 +2,14 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Installer git pour cloner ton second repo
+# Installer git pour cloner le bot
 RUN apk add --no-cache git
 
 # Version du bot
-ARG VERSION=1.0.0
+ARG VERSION=1.0.1
 
-# Cloner le repo du bot (remplace par ton URL réelle)
-RUN git clone --branch main https://github.com/TaoMelais/GrafAlertBot.git /app
+# Cloner le repo du bot
+RUN git clone --branch v${VERSION} https://github.com/TaoMelais/GrafAlertBot.git /app
 
 # Installer les dépendances
 RUN npm install --production
