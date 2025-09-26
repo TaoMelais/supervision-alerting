@@ -1,7 +1,0 @@
-apiVersion: 1
-
-plugins:
-  - id: grafana-clock-panel
-  - id: grafana-piechart-panel
-  - id: natel-discrete-panel
-  - id: grafana-simple-json-datasource
